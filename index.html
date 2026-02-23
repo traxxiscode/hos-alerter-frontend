@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>HOS Alert Emailer</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="addin.css" rel="stylesheet">
+    <script src="addin.js"></script>
+</head>
+<body>
+    <div id="hosAlerter" style="display: none;">
+
+        <!-- Header -->
+        <div class="custom-header">
+            <div class="container-fluid">
+                <div class="row align-items-center">
+                    <div class="col-auto">
+                        <img src="https://traxxisgps.com/wp-content/uploads/elementor/thumbs/Traxxis-refresh-logo_horizontal-min-1-qjgvd5cr9kxu5eay6trn10pbylz31ardqnqdluuew0.webp"
+                             alt="Company Logo" class="header-logo">
+                    </div>
+                    <div class="col">
+                        <div class="header-content">
+                            <h1 class="header-title">HOS Alert Emailer</h1>
+                            <p class="header-subtitle">Automated Hours-of-Service Limit Notifications</p>
+                        </div>
+                    </div>
+                    <div class="col-auto">
+                        <button class="btn btn-header-action btn-loading" id="refreshBtn" onclick="refreshRecipients()">
+                            <span class="btn-text">
+                                <i class="fas fa-sync-alt"></i>
+                                <span class="btn-text">Refresh</span>
+                            </span>
+                            <span class="btn-loading-text" style="display: none;">
+                                <span class="spinner-border spinner-border-sm me-1" role="status">
+                                    <span class="visually-hidden">Loading...</span>
+                                </span>
+                                Loading...
+                            </span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Alert Container -->
+        <div id="alertContainer" class="container mt-3"></div>
+
+        <!-- Initial Loading Overlay -->
+        <div id="initialLoadingOverlay" class="loading-overlay">
+            <div class="loading-content">
+                <div class="spinner-border text-primary" role="status" style="width: 3rem; height: 3rem;">
+                    <span class="visually-hidden">Loading...</span>
+                </div>
+                <div class="mt-3 h5">Loading recipients...</div>
+            </div>
+        </div>
+
+        <div class="container mt-4">
+            <div class="row">
+
+                <!-- Add Recipient -->
+                <div class="col-lg-6 mb-4">
+                    <div class="card enhanced-card">
+                        <div class="card-header">
+                            <i class="fas fa-plus-circle me-2"></i>
+                            Add Email Recipients
+                        </div>
+                        <div class="card-body">
+                            <form id="addRecipientForm">
+                                <div class="mb-4">
+                                    <label for="recipientEmail" class="form-label">Email Address</label>
+                                    <div class="input-group">
+                                        <span class="input-group-text">
+                                            <i class="fas fa-envelope"></i>
+                                        </span>
+                                        <input type="email" class="form-control" id="recipientEmail"
+                                               placeholder="user@example.com" required>
+                                    </div>
+                                    <div class="form-text">
+                                        This address will receive HOS alerts every 30 minutes when drivers are near their limits.
+                                    </div>
+                                </div>
+
+                                <button type="submit" class="btn btn-primary btn-loading" id="addRecipientBtn">
+                                    <span class="btn-text">
+                                        <i class="fas fa-plus me-2"></i>Add Recipient
+                                    </span>
+                                    <span class="btn-loading-text" style="display: none;">
+                                        <span class="spinner-border spinner-border-sm me-2" role="status">
+                                            <span class="visually-hidden">Loading...</span>
+                                        </span>
+                                        Adding...
+                                    </span>
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Current Recipients -->
+                <div class="col-lg-6 mb-4">
+                    <div class="card enhanced-card">
+                        <div class="card-header d-flex justify-content-between align-items-center">
+                            <span>
+                                <i class="fas fa-users me-2"></i>
+                                Current Recipients
+                                <span id="recipientCount" class="badge custom-badge ms-2">0</span>
+                            </span>
+                        </div>
+                        <div class="card-body">
+                            <div id="recipientsList">
+                                <div class="list-loading">
+                                    <div class="d-flex justify-content-center">
+                                        <div class="spinner-border text-primary" role="status">
+                                            <span class="visually-hidden">Loading...</span>
+                                        </div>
+                                    </div>
+                                    <div class="text-center mt-2">Loading recipients...</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Status / Info -->
+            <div class="row">
+                <div class="col-12">
+                    <div class="card enhanced-card">
+                        <div class="card-header">
+                            <i class="fas fa-info-circle me-2"></i>
+                            Service Status &amp; Information
+                        </div>
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="status-item">
+                                        <h6 class="status-label">Current Database:</h6>
+                                        <p id="currentDatabase" class="status-value">
+                                            <span class="spinner-border spinner-border-sm me-2" role="status">
+                                                <span class="visually-hidden">Loading...</span>
+                                            </span>
+                                            Loading...
+                                        </p>
+                                    </div>
+                                    <div class="status-item">
+                                        <h6 class="status-label">Service Status:</h6>
+                                        <p class="status-value">
+                                            <i class="fas fa-circle text-success pulse-animation me-2"></i>
+                                            <span class="text-success fw-bold">Active &amp; Running</span>
+                                        </p>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <h6 class="status-label">Alert Thresholds:</h6>
+                                    <div class="feature-list">
+                                        <div class="feature-item">
+                                            <i class="fas fa-car text-primary me-2"></i>
+                                            <span>Driving availability &le; 30 minutes remaining</span>
+                                        </div>
+                                        <div class="feature-item">
+                                            <i class="fas fa-briefcase text-primary me-2"></i>
+                                            <span>On-duty (workday) availability &le; 30 minutes remaining</span>
+                                        </div>
+                                        <div class="feature-item">
+                                            <i class="fas fa-bed text-primary me-2"></i>
+                                            <span>Rest availability &le; 15 minutes remaining</span>
+                                        </div>
+                                        <div class="feature-item">
+                                            <i class="fas fa-redo text-primary me-2"></i>
+                                            <span>Weekly cycle availability &le; 60 minutes remaining</span>
+                                        </div>
+                                        <div class="feature-item">
+                                            <i class="fas fa-clock text-primary me-2"></i>
+                                            <span>Checks run every 30 minutes automatically</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div><!-- /#hosAlerter -->
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+
+    <script>
+        // ── Replace with your own Firebase project config ──────────────────────
+        const firebaseConfig = {
+        apiKey: "AIzaSyCDquA4ZS0rGVpwwMp-e9g0hK4Rnp8Aqxs",
+        authDomain: "hos-volations.firebaseapp.com",
+        projectId: "hos-volations",
+        storageBucket: "hos-volations.firebasestorage.app",
+        messagingSenderId: "775730536667",
+        appId: "1:775730536667:web:008b434fc859bb3e232cfe"
+        };
+
+        firebase.initializeApp(firebaseConfig);
+        window.db = firebase.firestore();
+    </script>
+</body>
+</html>
