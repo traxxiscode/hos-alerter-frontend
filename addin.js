@@ -254,10 +254,6 @@ geotab.addin.hosAlerter = function () {
             <div class="recipient-item">
                 <div class="flex-grow-1">
                     <div class="recipient-email">${recipient.email}</div>
-                    <div class="recipient-settings">
-                        <i class="fas fa-clock me-1"></i>
-                        Alerts every 30 minutes
-                    </div>
                 </div>
                 <button class="btn btn-outline-danger btn-sm btn-loading"
                     onclick="confirmRemoveRecipient('${recipient.email}')"
