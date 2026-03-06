@@ -13,34 +13,19 @@
     <div id="hosAlerter" style="display: none;">
 
         <!-- Header -->
-        <div class="custom-header">
-            <div class="container-fluid">
-                <div class="row align-items-center">
-                    <div class="col-auto">
-                        <img src="https://cdn.baseline.is/static/content/logos/mDtvptChQ3XwBLuxuu5hip-lala.svg"
-                             alt="Logo" class="header-logo">
-                    </div>
-                    <div class="col">
-                        <div class="header-content">
-                            <h1 class="header-title">HOS Availability Alert Emailer</h1>
-                        </div>
-                    </div>
-                    <div class="col-auto">
-                        <button class="btn btn-header-action btn-loading" id="refreshBtn" onclick="refreshRecipients()">
-                            <span class="btn-text">
-                                <i class="fas fa-sync-alt"></i>
-                                <span class="btn-text">Refresh</span>
-                            </span>
-                            <span class="btn-loading-text" style="display: none;">
-                                <span class="spinner-border spinner-border-sm me-1" role="status">
-                                    <span class="visually-hidden">Loading...</span>
-                                </span>
-                                Loading...
-                            </span>
-                        </button>
-                    </div>
-                </div>
-            </div>
+        <div data-suite-actions style="display:none;">
+            <button class="btn btn-header-action btn-loading" id="refreshBtn" onclick="refreshRecipients()">
+                <span class="btn-text">
+                    <i class="fas fa-sync-alt"></i>
+                    <span>Refresh</span>
+                </span>
+                <span class="btn-loading-text" style="display: none;">
+                    <span class="spinner-border spinner-border-sm me-1" role="status">
+                        <span class="visually-hidden">Loading...</span>
+                    </span>
+                    Loading...
+                </span>
+            </button>
         </div>
 
         <!-- Alert Container -->
