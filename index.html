@@ -12,22 +12,6 @@
 <body>
     <div id="hosAlerter" style="display: none;">
 
-        <!-- Header actions injected into the Geotab dashboard header -->
-        <div data-suite-actions style="display:none;">
-            <button class="btn btn-header-action btn-loading" id="refreshBtn" onclick="refreshRecipients()">
-                <span class="btn-text">
-                    <i class="fas fa-sync-alt"></i>
-                    <span class="btn-label">Refresh</span>
-                </span>
-                <span class="btn-loading-text" style="display: none;">
-                    <span class="spinner-border spinner-border-sm me-1" role="status">
-                        <span class="visually-hidden">Loading...</span>
-                    </span>
-                    Loading...
-                </span>
-            </button>
-        </div>
-
         <!-- Alert Container -->
         <div id="alertContainer" class="container mt-3"></div>
 
@@ -92,6 +76,17 @@
                                 Current Recipients
                                 <span id="recipientCount" class="badge custom-badge ms-2">0</span>
                             </span>
+                            <button class="btn btn-sm btn-outline-light btn-loading" id="refreshBtn" onclick="refreshRecipients()">
+                                <span class="btn-text">
+                                    <i class="fas fa-sync-alt me-1"></i>Refresh
+                                </span>
+                                <span class="btn-loading-text" style="display: none;">
+                                    <span class="spinner-border spinner-border-sm me-1" role="status">
+                                        <span class="visually-hidden">Loading...</span>
+                                    </span>
+                                    Loading...
+                                </span>
+                            </button>
                         </div>
                         <div class="card-body">
                             <div id="recipientsList">
