@@ -26,6 +26,22 @@
         </div>
 
         <div class="container mt-4">
+
+            <!-- Toolbar -->
+            <div class="d-flex justify-content-end align-items-center mb-3">
+                <button class="btn btn-outline-primary btn-loading" id="refreshBtn" onclick="refreshRecipients()">
+                    <span class="btn-text">
+                        <i class="fas fa-sync-alt me-2"></i>Refresh
+                    </span>
+                    <span class="btn-loading-text" style="display: none;">
+                        <span class="spinner-border spinner-border-sm me-1" role="status">
+                            <span class="visually-hidden">Loading...</span>
+                        </span>
+                        Loading...
+                    </span>
+                </button>
+            </div>
+
             <div class="row">
 
                 <!-- Add Recipient -->
@@ -76,17 +92,6 @@
                                 Current Recipients
                                 <span id="recipientCount" class="badge custom-badge ms-2">0</span>
                             </span>
-                            <button class="btn btn-sm btn-outline-light btn-loading" id="refreshBtn" onclick="refreshRecipients()">
-                                <span class="btn-text">
-                                    <i class="fas fa-sync-alt me-1"></i>Refresh
-                                </span>
-                                <span class="btn-loading-text" style="display: none;">
-                                    <span class="spinner-border spinner-border-sm me-1" role="status">
-                                        <span class="visually-hidden">Loading...</span>
-                                    </span>
-                                    Loading...
-                                </span>
-                            </button>
                         </div>
                         <div class="card-body">
                             <div id="recipientsList">
